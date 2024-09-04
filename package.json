@@ -4,12 +4,15 @@
   "description": "String Calculator TDD",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "jest"
   },
   "keywords": [],
   "author": "Rohit Yadav <rohityadav876@gmail.com> (https://github.com/rohitsSpace)",
   "license": "MIT",
   "engines": {
     "node": "*"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
