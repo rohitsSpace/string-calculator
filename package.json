@@ -1,0 +1,15 @@
+{
+  "name": "tdd-assessment",
+  "version": "0.0.1",
+  "description": "String Calculator TDD",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [],
+  "author": "Rohit Yadav <rohityadav876@gmail.com> (https://github.com/rohitsSpace)",
+  "license": "MIT",
+  "engines": {
+    "node": "*"
+  }
+}
