@@ -13,4 +13,8 @@ describe('StringCalculator Function Test Suite', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('1,5')).toBe(6);
   });
+  it('should return the sum of multiple comma-separated numbers', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('1,2,3,4,5')).toBe(15);
+  });
 });
