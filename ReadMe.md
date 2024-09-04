@@ -135,7 +135,7 @@ console.log(calculator.add('//[***]\n1***2***7')); // Output: 10
 ```
 
 Step 1:
-Input string is `"//[***]\n1**_2_**7"`. Since the string is not empty, the method proceeds.
+Input string is `"//[***]\n1***2***7"`. Since the string is not empty, the method proceeds.
 
 Step 2:
 
@@ -147,7 +147,7 @@ The `_createDelimiterRegex` inner private method processes this delimiter and th
 
 The resulting regex for the delimiter is `\*\*\*`.
 
-Step 3: now the numberSequence is `"1**_2_**7"`.
+Step 3: now the numberSequence is `"1***2***7"`.
 
 Step 4:
 
