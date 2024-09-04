@@ -12,28 +12,83 @@ class StringCalculator {
   add(numbers) {
     if (!numbers) return 0;
 
+    const { delimiter, numberSequence } =
+      this._extractDelimiterAndNumbers(numbers);
+
+    const { parsedNumbers, negativeNumbers } = this._parseNumbers(
+      numberSequence,
+      delimiter
+    );
+
+    if (negativeNumbers.length) {
+      throw new Error(
+        `Negative numbers not allowed: ${negativeNumbers.join(', ')}`
+      );
+    }
+
+    return parsedNumbers.reduce((sum, current) => sum + current, 0);
+  }
+
+  /**
+   * Extracts the delimiter and number sequence from the input string.
+   *
+   * @private
+   * @param {string} numbers - The input string containing delimiters and numbers.
+   * @returns {Object} An object containing the delimiter and the number sequence.
+   */
+  _extractDelimiterAndNumbers(numbers) {
     let delimiter = /,|\n/;
     let numberSequence = numbers;
 
-    // Check for custom delimiter
     if (numbers.startsWith('//')) {
       const delimiterEndIndex = numbers.indexOf('\n');
       const delimiterPart = numbers.substring(2, delimiterEndIndex);
 
-      if (delimiterPart.includes('[')) {
-        const delimiters = delimiterPart.match(/\[([^\]]+)\]/g).map((d) => {
-          // Escape special characters in delimiters
-          return d.slice(1, -1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        });
-        delimiter = new RegExp(delimiters.join('|'));
-      } else {
-        delimiter = new RegExp(
-          delimiterPart.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        );
-      }
+      delimiter = this._createDelimiterRegex(delimiterPart);
       numberSequence = numbers.substring(delimiterEndIndex + 1);
     }
 
+    return { delimiter, numberSequence };
+  }
+
+  /**
+   * Creates a regex for the delimiter(s) provided.
+   *
+   * @private
+   * @param {string} delimiterPart - The part of the string defining custom delimiters.
+   * @returns {RegExp} A regular expression for the custom delimiters.
+   */
+  _createDelimiterRegex(delimiterPart) {
+    if (delimiterPart.includes('[')) {
+      const delimiters = delimiterPart.match(/\[([^\]]+)\]/g).map((d) => {
+        return this._escapeSpecialChars(d.slice(1, -1));
+      });
+      return new RegExp(delimiters.join('|'));
+    } else {
+      return new RegExp(this._escapeSpecialChars(delimiterPart));
+    }
+  }
+
+  /**
+   * Escapes special characters in a delimiter string to create a valid regex pattern.
+   *
+   * @private
+   * @param {string} delimiter - The delimiter string to escape.
+   * @returns {string} The escaped delimiter string.
+   */
+  _escapeSpecialChars(delimiter) {
+    return delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /**
+   * Parses the number sequence into an array of numbers and identifies any negatives.
+   *
+   * @private
+   * @param {string} numberSequence - The string containing the numbers.
+   * @param {RegExp} delimiter - The regular expression for splitting the numbers.
+   * @returns {Object} An object containing the parsed numbers and any negative numbers.
+   */
+  _parseNumbers(numberSequence, delimiter) {
     const numberArray = numberSequence.split(delimiter);
     const parsedNumbers = [];
     const negativeNumbers = [];
@@ -49,13 +104,7 @@ class StringCalculator {
       }
     }
 
-    if (negativeNumbers.length) {
-      throw new Error(
-        `Negative numbers not allowed: ${negativeNumbers.join(', ')}`
-      );
-    }
-
-    return parsedNumbers.reduce((sum, current) => sum + current, 0);
+    return { parsedNumbers, negativeNumbers };
   }
 }
 
