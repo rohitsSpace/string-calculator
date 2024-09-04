@@ -25,4 +25,10 @@ describe('StringCalculator Function Test Suite', () => {
     const calculator = new StringCalculator();
     expect(calculator.add('//;\n1;2')).toBe(3);
   });
+  it('should throw an exception for negative numbers', () => {
+    const calculator = new StringCalculator();
+    expect(() => calculator.add('1,-2,3,-4')).toThrow(
+      'Negative numbers not allowed: -2, -4'
+    );
+  });
 });

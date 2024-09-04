@@ -12,7 +12,26 @@ class StringCalculator {
     }
 
     const numberArray = numberSequence.split(delimiter);
-    return numberArray.reduce((sum, num) => sum + parseInt(num), 0);
+    const parsedNumbers = [];
+    const negativeNumbers = [];
+
+    for (const number of numberArray) {
+      const parsedNumber = parseInt(number);
+      if (!isNaN(parsedNumber)) {
+        parsedNumbers.push(parsedNumber);
+        if (parsedNumber < 0) {
+          negativeNumbers.push(parsedNumber);
+        }
+      }
+    }
+
+    if (negativeNumbers.length > 0) {
+      throw new Error(
+        `Negative numbers not allowed: ${negativeNumbers.join(', ')}`
+      );
+    }
+
+    return parsedNumbers.reduce((sum, current) => sum + current, 0);
   }
 }
 
