@@ -40,4 +40,8 @@ describe('StringCalculator Function Test Suite', () => {
       'Negative numbers not allowed: -2, -3'
     );
   });
+  it('Numbers greater than 1000 should be ignored', () => {
+    const calculator = new StringCalculator();
+    expect(calculator.add('5,1001')).toBe(5);
+  });
 });

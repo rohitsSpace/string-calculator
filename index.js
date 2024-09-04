@@ -29,10 +29,10 @@ class StringCalculator {
     for (const number of numberArray) {
       const parsedNumber = Number(number);
       if (!isNaN(parsedNumber)) {
+        if (parsedNumber > 1000) continue;
+        parsedNumbers.push(parsedNumber);
         if (parsedNumber < 0) {
           negativeNumbers.push(parsedNumber);
-        } else {
-          parsedNumbers.push(parsedNumber);
         }
       }
     }
