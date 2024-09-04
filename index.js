@@ -18,7 +18,19 @@ class StringCalculator {
     // Check for custom delimiter
     if (numbers.startsWith('//')) {
       const delimiterEndIndex = numbers.indexOf('\n');
-      delimiter = new RegExp(numbers.substring(2, delimiterEndIndex));
+      const delimiterPart = numbers.substring(2, delimiterEndIndex);
+
+      if (delimiterPart.includes('[')) {
+        const delimiters = delimiterPart.match(/\[([^\]]+)\]/g).map((d) => {
+          // Escape special characters in delimiters
+          return d.slice(1, -1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        });
+        delimiter = new RegExp(delimiters.join('|'));
+      } else {
+        delimiter = new RegExp(
+          delimiterPart.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        );
+      }
       numberSequence = numbers.substring(delimiterEndIndex + 1);
     }
 

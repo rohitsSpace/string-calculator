@@ -40,8 +40,17 @@ describe('StringCalculator Function Test Suite', () => {
       'Negative numbers not allowed: -2, -3'
     );
   });
-  it('Numbers greater than 1000 should be ignored', () => {
-    const calculator = new StringCalculator();
+  
+  it('should ignore numbers greater than 1000', () => {
     expect(calculator.add('5,1001')).toBe(5);
+  });
+
+  it('should allow delimiters of any length', () => {
+    expect(calculator.add('//[***]\n1***2***3')).toBe(6);
+  });
+
+  it('should allow multiple delimiters with length longer than one char', () => {
+    expect(calculator.add('//[*][%]\n1*2%3')).toBe(6);
+    expect(calculator.add('//[**][%%]\n1**2%%3')).toBe(6);
   });
 });
