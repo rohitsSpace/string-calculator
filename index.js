@@ -8,6 +8,15 @@ class StringCalculator {
    * @param {string} numbers - A string containing comma-separated numbers, possibly with custom delimiters.
    * @returns {number} The sum of the numbers in the string.
    * @throws Will throw an error if the string contains negative numbers.
+   * @example
+   * const calculator = new StringCalculator();
+   * calculator.add(""); // returns 0
+   * calculator.add("1"); // returns 1
+   * calculator.add("1,5"); // returns 6
+   * calculator.add("1\n2,3"); // returns 6
+   * calculator.add("//;\n1;2"); // returns 3
+   * calculator.add("//[*][%]\n1*2%3"); // returns 6
+   * calculator.add("//[***]\n15***21***112"); // returns 148
    */
   add(numbers) {
     if (!numbers) return 0;
